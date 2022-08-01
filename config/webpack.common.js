@@ -37,11 +37,11 @@ module.exports = {
             },
             {
                 test: /\.css/i,
-                use: ['style-loader', 'css-loader'],
+                use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
             {
-                test: /\.(png|svg|jpg|gif)$/i,
-                use: 'asset/resource',
+                test: /\.(png|svg|jpg|gif|mov|mp4)$/i,
+                type: 'asset/resource',
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,

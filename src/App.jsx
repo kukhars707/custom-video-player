@@ -1,8 +1,19 @@
 import React from 'react';
-import './index.css';
+
+import Navbar from './components/Navbar.jsx';
+import VideoPlayer from './components/VideoPlayer';
 
 const App = () => {
-    return <div className="app">Hello my App!</div>;
+    return (
+        <div>
+            <div>
+                <Navbar />
+                <div className="px-4">
+                    <VideoPlayer />
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default App;
