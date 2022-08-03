@@ -23,7 +23,6 @@ const Controls = ({
     onLoop,
     onMute,
 }) => {
-    console.log(isMuted);
     return (
         <>
             <div className="absolute top-0 bg-black p-4 w-full text-white opacity-70">
