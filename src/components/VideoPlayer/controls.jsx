@@ -12,6 +12,8 @@ import {
     faVolumeMute,
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 const Controls = ({
     onPlay,
@@ -22,6 +24,7 @@ const Controls = ({
     isLoop,
     onLoop,
     onMute,
+    progress,
 }) => {
     return (
         <>
@@ -53,7 +56,14 @@ const Controls = ({
                             <FontAwesomeIcon icon={faHurricane} />
                         </button>
                     </div>
-                    <div className="grow px-2">slider</div>
+                    <div className="grow px-2">
+                        <Slider
+                            min={0}
+                            max={100}
+                            value={progress * 100}
+                            trackStyle={{background: '#fff'}}
+                        />
+                    </div>
                     <div className="flex-none">
                         <button onClick={onMute} className="mr-2">
                             <FontAwesomeIcon
@@ -79,6 +89,7 @@ Controls.propTypes = {
     isLoop: PropTypes.bool.isRequired,
     onLoop: PropTypes.func.isRequired,
     onMute: PropTypes.func.isRequired,
+    progress: PropTypes.number.isRequired,
 };
 
 export default Controls;

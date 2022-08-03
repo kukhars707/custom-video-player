@@ -8,6 +8,7 @@ const VideoPlayer = () => {
     const [play, setPlay] = useState(false);
     const [isMuted, setMute] = useState(false);
     const [isLoop, setLoop] = useState(false);
+    const [progress, setProgress] = useState(0);
     const handlePlay = useCallback(() => setPlay((play) => !play), []);
     const handleForwardVideo = useCallback(() => {
         videoRef.current.seekTo(videoRef.current.getCurrentTime() + 5);
@@ -17,6 +18,9 @@ const VideoPlayer = () => {
     }, []);
     const handleMute = useCallback(() => setMute((isMuted) => !isMuted), []);
     const handleLoop = useCallback(() => setLoop((isLoop) => !isLoop), []);
+    const handleProgress = useCallback(({played}) => {
+        setProgress(played);
+    }, []);
     return (
         <div className="bg-slate-700 p-8">
             <div className="bg-black aspect-video relative overflow-hidden">
@@ -29,6 +33,7 @@ const VideoPlayer = () => {
                     width="100%"
                     height="100%"
                     fallback={<div>Loading</div>}
+                    onProgress={handleProgress}
                 />
                 <Controls
                     onPlay={handlePlay}
@@ -39,6 +44,7 @@ const VideoPlayer = () => {
                     isLoop={isLoop}
                     onMute={handleMute}
                     onLoop={handleLoop}
+                    progress={progress}
                 />
             </div>
         </div>
