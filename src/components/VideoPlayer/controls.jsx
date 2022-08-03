@@ -30,6 +30,8 @@ const Controls = ({
     currentTime,
     duration,
     showCongrols,
+    isCustomLoop,
+    onCustomLoop,
 }) => {
     return (
         <>
@@ -64,11 +66,20 @@ const Controls = ({
                         <button onClick={onForward} className="mr-2">
                             <FontAwesomeIcon icon={faForward} />
                         </button>
-                        <button onClick={onLoop} className="mr-2">
-                            <FontAwesomeIcon icon={faArrowsSpin} />
+                        <button
+                            onClick={isCustomLoop ? null : onLoop}
+                            className="mr-2"
+                        >
+                            <FontAwesomeIcon
+                                icon={faArrowsSpin}
+                                color={isLoop && 'orange'}
+                            />
                         </button>
-                        <button>
-                            <FontAwesomeIcon icon={faHurricane} />
+                        <button onClick={onCustomLoop}>
+                            <FontAwesomeIcon
+                                icon={faHurricane}
+                                color={isCustomLoop && 'orange'}
+                            />
                         </button>
                     </div>
                     <div className="grow px-2">
@@ -118,6 +129,8 @@ Controls.propTypes = {
     currentTime: PropTypes.string.isRequired,
     duration: PropTypes.string.isRequired,
     showCongrols: PropTypes.bool.isRequired,
+    isCustomLoop: PropTypes.bool.isRequired,
+    onCustomLoop: PropTypes.func.isRequired,
 };
 
 export default Controls;

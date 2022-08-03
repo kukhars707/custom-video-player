@@ -12,6 +12,7 @@ const VideoPlayer = () => {
     const [isLoop, setLoop] = useState(false);
     const [progress, setProgress] = useState(0);
     const [showCongrols, setShowControls] = useState(true);
+    const [isCustomLoop, setCustomLoop] = useState(false);
     const handlePlay = useCallback(() => setPlay((play) => !play), []);
     const handleForwardVideo = useCallback(() => {
         videoRef.current.seekTo(videoRef.current.getCurrentTime() + 5);
@@ -34,6 +35,9 @@ const VideoPlayer = () => {
         timer.current = setTimeout(() => {
             setShowControls(false);
         }, 3000);
+    }, []);
+    const handleCustomLoop = useCallback(() => {
+        setCustomLoop((isCustomLoop) => !isCustomLoop);
     }, []);
     const currentTime =
         videoRef && videoRef.current
@@ -76,6 +80,8 @@ const VideoPlayer = () => {
                     currentTime={currentTime}
                     duration={duration}
                     showCongrols={showCongrols}
+                    onCustomLoop={handleCustomLoop}
+                    isCustomLoop={isCustomLoop}
                 />
             </div>
         </div>
