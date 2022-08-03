@@ -14,6 +14,7 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import {timeFormat} from '../utils/timeFormat';
 
 const Controls = ({
     onPlay,
@@ -26,6 +27,8 @@ const Controls = ({
     onMute,
     progress,
     onSliderChange,
+    currentTime,
+    duration,
 }) => {
     return (
         <>
@@ -58,13 +61,21 @@ const Controls = ({
                         </button>
                     </div>
                     <div className="grow px-2">
-                        <Slider
-                            min={0}
-                            max={100}
-                            value={progress * 100}
-                            trackStyle={{background: '#fff'}}
-                            onChange={onSliderChange}
-                        />
+                        <div className="flex items-center">
+                            <div className="px-2 w-full">
+                                <Slider
+                                    min={0}
+                                    max={100}
+                                    value={progress * 100}
+                                    trackStyle={{background: '#fff'}}
+                                    onChange={onSliderChange}
+                                />
+                            </div>
+                            <div className="flex">
+                                <span>{timeFormat(currentTime)}</span> /{' '}
+                                <span>{timeFormat(duration)}</span>
+                            </div>
+                        </div>
                     </div>
                     <div className="flex-none">
                         <button onClick={onMute} className="mr-2">
@@ -93,6 +104,8 @@ Controls.propTypes = {
     onMute: PropTypes.func.isRequired,
     progress: PropTypes.number.isRequired,
     onSliderChange: PropTypes.func.isRequired,
+    currentTime: PropTypes.string.isRequired,
+    duration: PropTypes.string.isRequired,
 };
 
 export default Controls;

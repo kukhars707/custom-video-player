@@ -25,6 +25,12 @@ const VideoPlayer = () => {
         setProgress(progress / 100);
         videoRef.current.seekTo(progress / 100);
     }, []);
+    const currentTime =
+        videoRef && videoRef.current
+            ? videoRef.current.getCurrentTime()
+            : '00:00';
+    const duration =
+        videoRef && videoRef.current ? videoRef.current.getDuration() : '00:00';
     return (
         <div className="bg-slate-700 p-8">
             <div className="bg-black aspect-video relative overflow-hidden">
@@ -50,6 +56,8 @@ const VideoPlayer = () => {
                     onLoop={handleLoop}
                     progress={progress}
                     onSliderChange={handleSliderChange}
+                    currentTime={currentTime}
+                    duration={duration}
                 />
             </div>
         </div>
