@@ -33,7 +33,7 @@ const VideoPlayer = () => {
         videoRef && videoRef.current ? videoRef.current.getDuration() : '00:00';
     return (
         <div className="bg-slate-700 p-8">
-            <div className="bg-black aspect-video relative overflow-hidden">
+            <div className="bg-black w-full h-[calc(100vh-200px)] aspect-video relative overflow-hidden">
                 <ReactPlayer
                     playing={play}
                     ref={videoRef}
