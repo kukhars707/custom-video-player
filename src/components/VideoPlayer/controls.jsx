@@ -29,19 +29,30 @@ const Controls = ({
     onSliderChange,
     currentTime,
     duration,
+    showCongrols,
 }) => {
     return (
         <>
-            <div className="absolute top-0 bg-black p-4 w-full text-white opacity-70">
+            <div
+                className={`absolute top-0 bg-black p-4 w-full text-white opacity-90 transition-all duration-500 ${
+                    showCongrols ? 'translate-y-0' : 'translate-y-[-50px]'
+                }`}
+            >
                 Header controls
             </div>
             <button
-                className="absolute top-[50%] left-[50%] transform translate-y-[-50%] translate-x-[-50%] w-24 h-24 rounded-full bg-black text-white flex justify-center items-center opacity-50"
+                className={`absolute top-[50%] left-[50%] transform translate-y-[-50%] translate-x-[-50%] w-24 h-24 rounded-full bg-black text-white flex justify-center items-center opacity-90 transition-all duration-500 ${
+                    showCongrols ? 'block' : 'hidden'
+                }`}
                 onClick={onPlay}
             >
                 <FontAwesomeIcon icon={play ? faPause : faPlay} size="3x" />
             </button>
-            <div className="absolute bottom-0 bg-black p-4 w-full text-white opacity-70">
+            <div
+                className={`absolute bottom-0 bg-black p-4 w-full text-white opacity-90 transition-all duration-500 ${
+                    showCongrols ? 'translate-y-0' : 'translate-y-[50px]'
+                }`}
+            >
                 <div className="flex items-center">
                     <div className="flex-none">
                         <button onClick={onPlay} className="mr-2">
@@ -106,6 +117,7 @@ Controls.propTypes = {
     onSliderChange: PropTypes.func.isRequired,
     currentTime: PropTypes.string.isRequired,
     duration: PropTypes.string.isRequired,
+    showCongrols: PropTypes.bool.isRequired,
 };
 
 export default Controls;
