@@ -21,6 +21,10 @@ const VideoPlayer = () => {
     const handleProgress = useCallback(({played}) => {
         setProgress(played);
     }, []);
+    const handleSliderChange = useCallback((progress) => {
+        setProgress(progress / 100);
+        videoRef.current.seekTo(progress / 100);
+    }, []);
     return (
         <div className="bg-slate-700 p-8">
             <div className="bg-black aspect-video relative overflow-hidden">
@@ -45,6 +49,7 @@ const VideoPlayer = () => {
                     onMute={handleMute}
                     onLoop={handleLoop}
                     progress={progress}
+                    onSliderChange={handleSliderChange}
                 />
             </div>
         </div>

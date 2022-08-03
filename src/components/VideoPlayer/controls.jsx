@@ -25,6 +25,7 @@ const Controls = ({
     onLoop,
     onMute,
     progress,
+    onSliderChange,
 }) => {
     return (
         <>
@@ -62,6 +63,7 @@ const Controls = ({
                             max={100}
                             value={progress * 100}
                             trackStyle={{background: '#fff'}}
+                            onChange={onSliderChange}
                         />
                     </div>
                     <div className="flex-none">
@@ -90,6 +92,7 @@ Controls.propTypes = {
     onLoop: PropTypes.func.isRequired,
     onMute: PropTypes.func.isRequired,
     progress: PropTypes.number.isRequired,
+    onSliderChange: PropTypes.func.isRequired,
 };
 
 export default Controls;
