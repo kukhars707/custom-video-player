@@ -6,7 +6,17 @@ import video from '../../../asset/resource/sky.mov';
 const VideoPlayer = () => {
     const videoRef = useRef(null);
     const [play, setPlay] = useState(false);
+    const [isMuted, setMute] = useState(false);
+    const [isLoop, setLoop] = useState(false);
     const handlePlay = useCallback(() => setPlay((play) => !play), []);
+    const handleForwardVideo = useCallback(() => {
+        videoRef.current.seekTo(videoRef.current.getCurrentTime() + 5);
+    }, []);
+    const handleBackwardVideo = useCallback(() => {
+        videoRef.current.seekTo(videoRef.current.getCurrentTime() - 5);
+    }, []);
+    const handleMute = useCallback(() => setMute((isMuted) => !isMuted), []);
+    const handleLoop = useCallback(() => setLoop((isLoop) => !isLoop), []);
     return (
         <div className="bg-slate-700 p-8">
             <div className="bg-black aspect-video relative overflow-hidden">
@@ -14,11 +24,22 @@ const VideoPlayer = () => {
                     playing={play}
                     ref={videoRef}
                     url={video}
+                    muted={isMuted}
+                    loop={isLoop}
                     width="100%"
                     height="100%"
                     fallback={<div>Loading</div>}
                 />
-                <Controls onPlay={handlePlay} play={play} />
+                <Controls
+                    onPlay={handlePlay}
+                    play={play}
+                    onForward={handleForwardVideo}
+                    onBackward={handleBackwardVideo}
+                    isMuted={isMuted}
+                    isLoop={isLoop}
+                    onMute={handleMute}
+                    onLoop={handleLoop}
+                />
             </div>
         </div>
     );

@@ -9,10 +9,21 @@ import {
     faHurricane,
     faExpand,
     faVolumeHigh,
+    faVolumeMute,
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-const Controls = ({onPlay, play}) => {
+const Controls = ({
+    onPlay,
+    play,
+    onForward,
+    onBackward,
+    isMuted,
+    isLoop,
+    onLoop,
+    onMute,
+}) => {
+    console.log(isMuted);
     return (
         <>
             <div className="absolute top-0 bg-black p-4 w-full text-white opacity-70">
@@ -30,13 +41,13 @@ const Controls = ({onPlay, play}) => {
                         <button onClick={onPlay} className="mr-2">
                             <FontAwesomeIcon icon={play ? faPause : faPlay} />
                         </button>
-                        <button className="mr-2">
+                        <button onClick={onBackward} className="mr-2">
                             <FontAwesomeIcon icon={faBackward} />
                         </button>
-                        <button className="mr-2">
+                        <button onClick={onForward} className="mr-2">
                             <FontAwesomeIcon icon={faForward} />
                         </button>
-                        <button className="mr-2">
+                        <button onClick={onLoop} className="mr-2">
                             <FontAwesomeIcon icon={faArrowsSpin} />
                         </button>
                         <button>
@@ -45,8 +56,10 @@ const Controls = ({onPlay, play}) => {
                     </div>
                     <div className="grow px-2">slider</div>
                     <div className="flex-none">
-                        <button className="mr-2">
-                            <FontAwesomeIcon icon={faVolumeHigh} />
+                        <button onClick={onMute} className="mr-2">
+                            <FontAwesomeIcon
+                                icon={isMuted ? faVolumeMute : faVolumeHigh}
+                            />
                         </button>
                         <button>
                             <FontAwesomeIcon icon={faExpand} />
@@ -61,6 +74,12 @@ const Controls = ({onPlay, play}) => {
 Controls.propTypes = {
     onPlay: PropTypes.func.isRequired,
     play: PropTypes.bool.isRequired,
+    onForward: PropTypes.func.isRequired,
+    onBackward: PropTypes.func.isRequired,
+    isMuted: PropTypes.bool.isRequired,
+    isLoop: PropTypes.bool.isRequired,
+    onLoop: PropTypes.func.isRequired,
+    onMute: PropTypes.func.isRequired,
 };
 
 export default Controls;
