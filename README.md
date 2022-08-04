@@ -3,6 +3,8 @@
 
 ---
 
+#### [Demo](https://kukhars707.github.io/custom-video-player.github.io/)
+
 ### Install
 
 ```sh
