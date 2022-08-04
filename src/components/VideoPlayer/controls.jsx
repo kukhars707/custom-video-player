@@ -32,6 +32,7 @@ const Controls = ({
     showCongrols,
     isCustomLoop,
     onCustomLoop,
+    onFullScreen,
 }) => {
     return (
         <>
@@ -105,7 +106,7 @@ const Controls = ({
                                 icon={isMuted ? faVolumeMute : faVolumeHigh}
                             />
                         </button>
-                        <button>
+                        <button onClick={onFullScreen}>
                             <FontAwesomeIcon icon={faExpand} />
                         </button>
                     </div>
@@ -131,6 +132,7 @@ Controls.propTypes = {
     showCongrols: PropTypes.bool.isRequired,
     isCustomLoop: PropTypes.bool.isRequired,
     onCustomLoop: PropTypes.func.isRequired,
+    onFullScreen: PropTypes.func.isRequired,
 };
 
 export default Controls;

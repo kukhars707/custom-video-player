@@ -2,11 +2,13 @@ import React, {useRef, useCallback, useState, useEffect} from 'react';
 import ReactPlayer from 'react-player';
 import Controls from './controls.jsx';
 import video from '../../../asset/resource/sky.mov';
+import screenfull from 'screenfull';
 
 const VideoPlayer = () => {
     const videoRef = useRef(null);
     const timer = useRef(null);
     const container = useRef(null);
+    const fullScreen = useRef(null);
     const [play, setPlay] = useState(false);
     const [isMuted, setMute] = useState(false);
     const [isLoop, setLoop] = useState(false);
@@ -39,6 +41,11 @@ const VideoPlayer = () => {
     const handleCustomLoop = useCallback(() => {
         setCustomLoop((isCustomLoop) => !isCustomLoop);
     }, []);
+    const handleFullScreen = useCallback(() => {
+        if (screenfull.isEnabled) {
+            screenfull.toggle(fullScreen.current);
+        }
+    }, []);
     const currentTime =
         videoRef && videoRef.current
             ? videoRef.current.getCurrentTime()
@@ -55,34 +62,37 @@ const VideoPlayer = () => {
                 ref={container}
                 className="bg-black w-full h-[calc(100vh-200px)] aspect-video relative overflow-hidden"
             >
-                <ReactPlayer
-                    playing={play}
-                    ref={videoRef}
-                    url={video}
-                    muted={isMuted}
-                    loop={isLoop}
-                    width="100%"
-                    height="100%"
-                    fallback={<div>Loading</div>}
-                    onProgress={handleProgress}
-                />
-                <Controls
-                    onPlay={handlePlay}
-                    play={play}
-                    onForward={handleForwardVideo}
-                    onBackward={handleBackwardVideo}
-                    isMuted={isMuted}
-                    isLoop={isLoop}
-                    onMute={handleMute}
-                    onLoop={handleLoop}
-                    progress={progress}
-                    onSliderChange={handleSliderChange}
-                    currentTime={currentTime}
-                    duration={duration}
-                    showCongrols={showCongrols}
-                    onCustomLoop={handleCustomLoop}
-                    isCustomLoop={isCustomLoop}
-                />
+                <div ref={fullScreen}>
+                    <ReactPlayer
+                        playing={play}
+                        ref={videoRef}
+                        url={video}
+                        muted={isMuted}
+                        loop={isLoop}
+                        width="100%"
+                        height="100%"
+                        fallback={<div>Loading</div>}
+                        onProgress={handleProgress}
+                    />
+                    <Controls
+                        onPlay={handlePlay}
+                        play={play}
+                        onForward={handleForwardVideo}
+                        onBackward={handleBackwardVideo}
+                        isMuted={isMuted}
+                        isLoop={isLoop}
+                        onMute={handleMute}
+                        onLoop={handleLoop}
+                        progress={progress}
+                        onSliderChange={handleSliderChange}
+                        currentTime={currentTime}
+                        duration={duration}
+                        showCongrols={showCongrols}
+                        onCustomLoop={handleCustomLoop}
+                        isCustomLoop={isCustomLoop}
+                        onFullScreen={handleFullScreen}
+                    />
+                </div>
             </div>
         </div>
     );
