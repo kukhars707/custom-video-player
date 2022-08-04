@@ -15,6 +15,15 @@ const VideoPlayer = () => {
     const [progress, setProgress] = useState(0);
     const [showCongrols, setShowControls] = useState(true);
     const [isCustomLoop, setCustomLoop] = useState(false);
+    const [loopRange, setLoopRange] = useState({
+        start: null,
+        end: null,
+    });
+    const [loopRangeChangeValue, setLoopRangeChangeValue] = useState({
+        start: null,
+        progress: null,
+        end: null,
+    });
     const handlePlay = useCallback(() => setPlay((play) => !play), []);
     const handleForwardVideo = useCallback(() => {
         videoRef.current.seekTo(videoRef.current.getCurrentTime() + 5);
@@ -28,8 +37,16 @@ const VideoPlayer = () => {
         setProgress(played);
     }, []);
     const handleSliderChange = useCallback((progress) => {
-        setProgress(progress / 100);
-        videoRef.current.seekTo(progress / 100);
+        if (typeof progress === 'number') {
+            setProgress(progress / 100);
+            videoRef.current.seekTo(progress / 100);
+        } else {
+            setLoopRangeChangeValue({
+                start: progress[0],
+                progress: progress[1],
+                end: progress[2],
+            });
+        }
     }, []);
     const handleShowControls = useCallback(() => {
         setShowControls(true);
@@ -40,7 +57,11 @@ const VideoPlayer = () => {
     }, []);
     const handleCustomLoop = useCallback(() => {
         setCustomLoop((isCustomLoop) => !isCustomLoop);
-    }, []);
+        setLoopRange({
+            start: progress * 100,
+            end: progress * 100 + 50,
+        });
+    }, [progress]);
     const handleFullScreen = useCallback(() => {
         if (screenfull.isEnabled) {
             screenfull.toggle(fullScreen.current);
@@ -49,13 +70,33 @@ const VideoPlayer = () => {
     const currentTime =
         videoRef && videoRef.current
             ? videoRef.current.getCurrentTime()
-            : '00:00';
+            : Number('00:00');
     const duration =
-        videoRef && videoRef.current ? videoRef.current.getDuration() : '00:00';
+        videoRef && videoRef.current
+            ? videoRef.current.getDuration()
+            : Number('00:00');
 
     useEffect(() => {
         container.current.addEventListener('mousemove', handleShowControls);
     }, [handleShowControls]);
+    useEffect(() => {
+        if (isCustomLoop && progress && progress * 100 > loopRange.end) {
+            videoRef.current.seekTo(loopRange.start / 100);
+            setProgress(loopRange.start / 100);
+        }
+    }, [isCustomLoop, loopRange, progress]);
+    useEffect(() => {
+        videoRef.current.seekTo(loopRangeChangeValue.progress / 100);
+        setProgress(loopRangeChangeValue.progress / 100);
+    }, [loopRangeChangeValue.progress]);
+    useEffect(() => {
+        setLoopRange({
+            start: loopRangeChangeValue.start,
+            end: loopRangeChangeValue.end,
+        });
+        videoRef.current.seekTo(loopRangeChangeValue.start / 100);
+        setProgress(loopRangeChangeValue.start / 100);
+    }, [loopRangeChangeValue.start, loopRangeChangeValue.end]);
     return (
         <div className="bg-slate-700 p-8">
             <div
@@ -91,6 +132,7 @@ const VideoPlayer = () => {
                         onCustomLoop={handleCustomLoop}
                         isCustomLoop={isCustomLoop}
                         onFullScreen={handleFullScreen}
+                        loopRange={loopRange}
                     />
                 </div>
             </div>

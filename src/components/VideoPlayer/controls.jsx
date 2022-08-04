@@ -33,6 +33,7 @@ const Controls = ({
     isCustomLoop,
     onCustomLoop,
     onFullScreen,
+    loopRange,
 }) => {
     return (
         <>
@@ -73,13 +74,13 @@ const Controls = ({
                         >
                             <FontAwesomeIcon
                                 icon={faArrowsSpin}
-                                color={isLoop && 'orange'}
+                                color={isLoop ? 'orange' : undefined}
                             />
                         </button>
                         <button onClick={onCustomLoop}>
                             <FontAwesomeIcon
                                 icon={faHurricane}
-                                color={isCustomLoop && 'orange'}
+                                color={isCustomLoop ? 'orange' : undefined}
                             />
                         </button>
                     </div>
@@ -88,9 +89,27 @@ const Controls = ({
                             <div className="px-2 w-full">
                                 <Slider
                                     min={0}
+                                    range={isCustomLoop}
                                     max={100}
-                                    value={progress * 100}
-                                    trackStyle={{background: '#fff'}}
+                                    count={isCustomLoop ? 2 : 1}
+                                    pushable={isCustomLoop && 1}
+                                    value={
+                                        isCustomLoop
+                                            ? [
+                                                  loopRange.start,
+                                                  progress * 100,
+                                                  loopRange.end,
+                                              ]
+                                            : progress * 100
+                                    }
+                                    trackStyle={
+                                        isCustomLoop
+                                            ? [
+                                                  {backgroundColor: 'orange'},
+                                                  {backgroundColor: '#fff'},
+                                              ]
+                                            : {backgroundColor: '#fff'}
+                                    }
                                     onChange={onSliderChange}
                                 />
                             </div>
@@ -127,12 +146,13 @@ Controls.propTypes = {
     onMute: PropTypes.func.isRequired,
     progress: PropTypes.number.isRequired,
     onSliderChange: PropTypes.func.isRequired,
-    currentTime: PropTypes.string.isRequired,
-    duration: PropTypes.string.isRequired,
+    currentTime: PropTypes.number,
+    duration: PropTypes.number,
     showCongrols: PropTypes.bool.isRequired,
     isCustomLoop: PropTypes.bool.isRequired,
     onCustomLoop: PropTypes.func.isRequired,
     onFullScreen: PropTypes.func.isRequired,
+    loopRange: PropTypes.object,
 };
 
 export default Controls;
